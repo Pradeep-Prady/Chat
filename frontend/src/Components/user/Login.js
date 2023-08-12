@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
-
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, redirect, useNavigate } from "react-router-dom";
-import { login, clearAuthError } from "./../../actions/userActions";
-import MetaData from "./../layouts/MetaData";
-import { toast } from "react-hot-toast";
+import { clearAuthError, login } from "../../actions/userAtions";
+import { toast } from "react-toastify";
 
-export default function Login() {
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -19,101 +17,75 @@ export default function Login() {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    console.log("login success");
     dispatch(login(email, password));
   };
 
   useEffect(() => {
     if (isAuthenticated) {
-      // toast.success("Test Case Passed", {
-      //   position: "bottom-center",
-      //   duration: 2000,
-      //   style: {
-      //     border: "1px solid white",
-      //     backgroundColor: "black",
-      //     color: "white",
-      //   },
-      // });
       navigate("/");
     }
-    if (error) {
-      toast.error(error, {
-        position: "bottom-center",
-        duration: 2000,
-        style: {
-          border: "1px solid white",
-          background: "rgba(255, 255, 255, 0.08)",
-          boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-          backdropFilter: "blur(10px)",
-          color: "white",
-        },
-        icon: "😥",
-      });
-      dispatch(clearAuthError);
 
+    if (error) {
+      toast(error, {
+        position: toast.POSITION.BOTTOM_CENTER,
+        type: "error",
+        onOpen: () => {
+          dispatch(clearAuthError);
+        },
+      });
       return;
     }
   }, [error, isAuthenticated, dispatch, navigate]);
 
   return (
     <>
-      <MetaData title={"Login"} />
-      <div
-        className="relative z-10 w-full h-screen flex items-center  justify-center bg"
-        id="login"
-      >
-        <div className="w-11/12 sm:w-2/5 md:w-1/5 rounded-md  form-glass py-7 px-5">
-          <form className="text-center" onSubmit={submitHandler}>
-            <h2 className="text-3xl">Login</h2>
-
-            <div className="my-5 flex-row">
-              <div className="flex my-2">
-                <label htmlFor="email">Email Address *</label>
-              </div>
-              <div className="flex">
+      <div className="login ">
+        <div className="row wrapper">
+          <div className="col-10 col-lg-5">
+            <form onSubmit={submitHandler}>
+              <h3>Login</h3>
+              <div className="form-group">
+                {/* <label htmlFor="email">Email</label> */}
                 <input
-                  className="w-full outline-0 rounded-sm bg-transparent border-black border-b-2"
                   type="email"
-                  id="email"
-                  name="email"
+                  className="form-control"
+                  autoComplete="off"
                   value={email}
+                  placeholder="Email Address"
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-            </div>
-
-            <div className="my-5 flex-row">
-              <div className="flex my-2">
-                <label htmlFor="password">Password *</label>
-              </div>
-              <div className="flex">
+              <div className="form-group">
+                {/* <label htmlFor="password">Password</label> */}
                 <input
-                  className="w-full outline-0 rounded-sm bg-transparent border-b-2 border-black"
                   type="password"
-                  id="password"
-                  name="password"
+                  className="form-control"
+                  autoComplete="off"
+                  placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-            </div>
-            <div className="my-5">
-              <button
-                type="submit"
-                disabled={loading}
-                className="button-54 scale-75"
-              >
+
+              <button className="btn" type="submit" disabled={loading}>
                 Login
               </button>
-            </div>
 
-            <div>
-              <Link to="/password/forgot">
-                <p className="">forgot password?</p>
-              </Link>
-            </div>
-          </form>
+              <div className="form-group links">
+                <Link className="link" to="/password/forgot">
+                  forgot password?
+                </Link>
+                <Link className="link" to="/register">
+                  Register?
+                </Link>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </>
   );
 }
+
+export default Login;

@@ -1,0 +1,184 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;200;300;400;500;600;700&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  outline: none;
+  text-decoration: none;
+  border: none;
+  font-family: "Roboto Mono", monospace;
+}
+
+.app {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  background-color: #0a0a18; 
+  background-image: url("./images/bg.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* Login styles */
+
+.login {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: ghostwhite;
+  font-weight: 700;
+  background-color: #050505;
+  padding: 0 1rem;
+}
+
+.wrapper form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper form h3 {
+  font-size: 2rem;
+  padding: 1rem 0;
+  color: ghostwhite;
+}
+
+.wrapper form .form-group {
+  padding: 10px;
+}
+.wrapper form .form-group label {
+  padding: 10px;
+}
+
+.wrapper form .form-group input {
+  padding: 10px;
+  width: 300px;
+  height: 40px;
+  border-radius: 3px;
+  border: 2px solid ghostwhite;
+  background-color: #050505;
+  color: ghostwhite;
+}
+
+.wrapper form .form-group input::-ms-reveal {
+  filter: invert(100%);
+}
+
+.wrapper form .form-group input::placeholder {
+  color: #808080;
+  opacity: 1;
+}
+
+.btn {
+  padding: 6px 14px;
+  font-size: 0.9rem;
+  margin: 1rem 0;
+  border-radius: 3px;
+  border: 2px solid ghostwhite;
+  background-color: #050505;
+  color: ghostwhite;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: ghostwhite;
+  color: #050505;
+  padding: 8px 16px;
+}
+
+.wrapper .link {
+  color: rgb(141, 143, 145);
+  padding: 0 18px;
+  font-size: 0.8rem;
+}
+
+.wrapper .link:hover {
+  text-decoration: underline;
+  color: ghostwhite;
+}
+
+.wrapper .form-group .profilephoto {
+  width: 50px;
+  height: auto;
+  border: 2px solid ghostwhite;
+}
+
+.fillerror {
+  font-size: 0.8rem;
+  color: red;
+}
+
+/* myprofile */
+.myprofile {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 4rem;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: ghostwhite;
+  font-weight: 700;
+  background-color: #050505;
+  padding: 2rem;
+  /* border: 2px  solid ghostwhite; */
+}
+.user-info .user-img {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-info .user-img img {
+  width: 150px;
+}
+.details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+
+.details h4 {
+  font-size: 0.8rem;
+  color: #808080;
+  padding: 6px 0;
+}
+.logout {
+  color: red;
+  border: 2px solid red;
+}
+.logout:hover {
+  background-color: red;
+  color: ghostwhite;
+  padding: 8px 16px;
+}
+
+ 
+@media (max-width: 992px) {
+  .app {
+    background-image: url("../public/images/md.jpeg");
+  }
+}
+
+@media (max-width: 576px) {
+  .app {
+    background-image: url("../public/images/sm.jpeg");
+  }
+}

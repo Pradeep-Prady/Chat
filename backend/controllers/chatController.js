@@ -5,11 +5,29 @@ const User = require("../models/userModel");
 const ErrorHandler = require("../utils/errorHandler");
 
 exports.getChats = catchAsyncError(async (req, res, next) => {
-  const gang_chats = await Chat.find().populate("user", "name avatar");
+  const chats = await Chat.find();
+
+  try {
+    for (const chat of chats) {
+      if (!chat) {
+        return next(new ErrorHandler("User not found", 404));
+      }
+
+      let id = chat.user;
+      const user = await User.findById(id);
+      chat.name = user.name;
+      chat.avatar = user.avatar;
+    }
+
+    // Rest of your code here
+  } catch (error) {
+    // Handle the error
+    next(error);
+  }
 
   res.status(200).json({
     success: true,
-    gang_chats,
+    chats,
   });
 });
 
@@ -36,15 +54,9 @@ exports.createChat = catchAsyncError(async (req, res, next) => {
 
   let images = [];
 
-  let BASE_URL = process.env.BACKEND_URL;
-
-  if (process.env.NODE_ENV === "production") {
-    BASE_URL = `${req.protocol}://${req.get("host")}`;
-  }
-
   if (req.files && req.files.length > 0) {
     req.files.forEach((file) => {
-      let url = `${BASE_URL}/uploads/chats/${file.originalname}`;
+      let url = `${process.env.BACKEND_URL}/uploads/chats/${file.originalname}`;
       images.push({ image: url });
     });
   }
@@ -53,43 +65,30 @@ exports.createChat = catchAsyncError(async (req, res, next) => {
 
   req.body.user = req.user.id;
 
-  // const chats = await Chat.find();
+  const chat = await Chat.create(req.body);
 
-  // try {
-  //   for (const chat of chats) {
-  //     if (!chat) {
-  //       return next(new ErrorHandler("User not found", 404));
-  //     }
+  const chats = await Chat.find();
 
-  //     let id = chat.user;
-  //     const user = await User.findById(id);
-  //     chat.name = user.name;
-  //     chat.avatar = user.avatar;
-  //   }
+  try {
+    for (const chat of chats) {
+      if (!chat) {
+        return next(new ErrorHandler("User not found", 404));
+      }
 
-  //   // Rest of your code here
-  // } catch (error) {
-  //   // Handle the error
-  //   next(error);
-  // }
+      let id = chat.user;
+      const user = await User.findById(id);
+      chat.name = user.name;
+      chat.avatar = user.avatar;
+    }
 
-  // if (chat) {
-  //   if (chat.user) {
-  //     const user = await User.findById(chat.user);
-
-
-
-
-  // const user = req.user;
-  // req.body.name = user.name;
-  // req.body.avatar = user.avatar;
-  //   }
-  // }
-
-  const chat = await await Chat.create(req.body);
+    // Rest of your code here
+  } catch (error) {
+    // Handle the error
+    next(error);
+  }
 
   res.status(201).json({
     success: true,
-    chat,
+    chats,
   });
 });

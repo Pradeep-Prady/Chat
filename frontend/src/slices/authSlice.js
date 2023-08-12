@@ -5,7 +5,6 @@ const authSlice = createSlice({
   initialState: {
     loading: false,
     isAuthenticated: false,
-    isUserCreated: false,
   },
   reducers: {
     loginRequest(state, action) {
@@ -25,16 +24,19 @@ const authSlice = createSlice({
       return {
         ...state,
         loading: false,
-        error: action.payload,
+        error: action.payload.message,
       };
     },
+
     clearError(state, action) {
       return {
         ...state,
-
         error: null,
       };
     },
+
+    // register user
+
     registerRequest(state, action) {
       return {
         ...state,
@@ -46,23 +48,18 @@ const authSlice = createSlice({
         loading: false,
         isAuthenticated: true,
         user: action.payload.user,
-        isUserCreated: true,
       };
     },
     registerFail(state, action) {
       return {
         ...state,
         loading: false,
-        error: action.payload,
-        isUserCreated: false,
+        error: action.payload.message,
       };
     },
-    clearRegister(state, action) {
-      return {
-        ...state,
-        isUserCreated: false,
-      };
-    },
+
+    // load user
+
     loadUserRequest(state, action) {
       return {
         ...state,
@@ -72,7 +69,7 @@ const authSlice = createSlice({
     },
     loadUserSuccess(state, action) {
       return {
-        loading: false,
+        ...state,
         isAuthenticated: true,
         user: action.payload.user,
       };
@@ -83,6 +80,8 @@ const authSlice = createSlice({
         loading: false,
       };
     },
+
+    // logout user
 
     logoutSuccess(state, action) {
       return {
@@ -96,6 +95,9 @@ const authSlice = createSlice({
         error: action.payload,
       };
     },
+
+    // update user
+
     updateProfileRequest(state, action) {
       return {
         ...state,
@@ -111,6 +113,7 @@ const authSlice = createSlice({
         isUpdated: true,
       };
     },
+
     updateProfileFail(state, action) {
       return {
         ...state,
@@ -118,18 +121,20 @@ const authSlice = createSlice({
         error: action.payload,
       };
     },
-
     clearUpdateProfile(state, action) {
       return {
         ...state,
         isUpdated: false,
       };
     },
+
+    // update password
+
     updatePasswordRequest(state, action) {
       return {
         ...state,
+        loading: true,
         isUpdated: false,
-        loading: false,
       };
     },
     updatePasswordSuccess(state, action) {
@@ -146,6 +151,8 @@ const authSlice = createSlice({
         error: action.payload,
       };
     },
+
+    // forgot password
 
     forgotPasswordRequest(state, action) {
       return {
@@ -169,6 +176,8 @@ const authSlice = createSlice({
       };
     },
 
+    // reset password
+
     resetPasswordRequest(state, action) {
       return {
         ...state,
@@ -190,6 +199,8 @@ const authSlice = createSlice({
         error: action.payload,
       };
     },
+
+    // 
   },
 });
 
@@ -203,7 +214,6 @@ export const {
   registerRequest,
   registerSuccess,
   registerFail,
-  clearRegister,
   loadUserRequest,
   loadUserSuccess,
   loadUserFail,
@@ -222,6 +232,6 @@ export const {
   resetPasswordRequest,
   resetPasswordSuccess,
   resetPasswordFail,
+  
 } = actions;
-
 export default reducer;

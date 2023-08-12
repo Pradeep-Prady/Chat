@@ -14,7 +14,7 @@ import {
 export const getChats = () => async (dispatch) => {
   try {
     dispatch(chatsRequest());
-    const { data } = await axios.get("/api/v1/chats");
+    const { data } = await axios.get("/chat/v1/chats");
     dispatch(chatsSuccess(data));
   } catch (error) {
     dispatch(chatsFail(error.response.data.message));
@@ -24,7 +24,7 @@ export const getChats = () => async (dispatch) => {
 export const getChat = (id) => async (dispatch) => {
   try {
     dispatch(chatRequest());
-    const { data } = await axios.get(`/api/v1/chats/${id}`);
+    const { data } = await axios.get(`/chat/v1/chats/${id}`);
     dispatch(chatSuccess(data));
   } catch (error) {
     dispatch(chatFail(error.response.data.message));
@@ -34,6 +34,7 @@ export const getChat = (id) => async (dispatch) => {
 export const sendMessage = (formData) => async (dispatch) => {
   try {
     dispatch(createChatRequest());
+    
 
     const config = {
       headers: {
@@ -41,7 +42,7 @@ export const sendMessage = (formData) => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.post("/api/v1/chats/create", formData, config);
+    const { data } = await axios.post("/chat/v1/create", formData, config);
     dispatch(createChatSuccess(data));
   } catch (error) {
     dispatch(createChatFail(error.response.data.message));

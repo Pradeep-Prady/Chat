@@ -1,9 +1,9 @@
+import React from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import Loader from "./../layouts/Loader";
 
-export default function ProtectedRoute({ children, isAdmin }) {
-  const { isAuthenticated, loading, user } = useSelector(
+export default function ProtectedRoute({ children }) {
+  const { isAuthenticated, loading } = useSelector(
     (state) => state.authState
   );
 
@@ -12,13 +12,9 @@ export default function ProtectedRoute({ children, isAdmin }) {
   }
 
   if (isAuthenticated) {
-    if (isAdmin === true && user.role !== "admin") {
-      return <Navigate to="/" />;
-    }
     return children;
   }
-
-  if (loading) {
-    return <Loader />;
-  }
+  
+  // Add a fallback option in case the authentication status is loading
+  return null;
 }

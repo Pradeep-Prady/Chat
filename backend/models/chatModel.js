@@ -13,7 +13,7 @@ const chatModel = new mongoose.Schema({
   name: {
     type: String,
   },
-  avatar: {
+  avatar:{
     type: String,
   },
   images: [
@@ -29,6 +29,7 @@ const chatModel = new mongoose.Schema({
   },
 });
 
+ 
 let model = mongoose.model("Chat", chatModel);
 
 module.exports = model;

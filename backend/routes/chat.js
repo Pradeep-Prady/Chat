@@ -1,11 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
-const {
-  createChat,
-  getChats,
-  getChat,
-} = require("../controllers/chatController");
+const { createChat, getChats, getChat } = require("../controllers/chatController");
 
 const {
   isAuthenticatedUser,
@@ -26,7 +22,7 @@ const upload = multer({
 });
 
 router
-  .route("/chats/create")
+  .route("/create")
   .post(isAuthenticatedUser, upload.array("images"), createChat);
 router.route("/chats").get(isAuthenticatedUser, getChats);
 router.route("/chats/:id").get(isAuthenticatedUser, getChat);

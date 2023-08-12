@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import {
-  clearAuthError,
-  loadUser,
-  resetPassword,
-} from "../../actions/userActions";
-import MetaData from "../layouts/MetaData";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
+import { clearAuthError, resetPassword } from "./../../actions/userAtions";
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function ResetPassword() {
+function ResetPassword() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -32,90 +27,67 @@ export default function ResetPassword() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      toast.success("Secret Key Changed", {
-        position: "bottom-center",
-        duration: 2000,
-        style: {
-          border: "1px solid white",
-          background: "rgba(255, 255, 255, 0.08)",
-          boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-          backdropFilter: "blur(10px)",
-          color: "white",
-        },
+      toast("Password Reset Success!", {
+        type: "success",
+        position: toast.POSITION.BOTTOM_CENTER,
       });
       navigate("/");
       return;
     }
     if (error) {
-      toast.error(error, {
-        position: "bottom-center",
-        duration: 2000,
-        style: {
-          border: "1px solid white",
-          background: "rgba(255, 255, 255, 0.08)",
-          boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-          backdropFilter: "blur(10px)",
-          color: "white",
+      toast(error, {
+        position: toast.POSITION.BOTTOM_CENTER,
+        type: "error",
+        onOpen: () => {
+          dispatch(clearAuthError);
         },
       });
-      dispatch(clearAuthError);
-
       return;
     }
-  }, [isAuthenticated, error, dispatch, navigate]);
+  }, [isAuthenticated, error, navigate, dispatch]);
 
   return (
     <>
-      <MetaData title={"Reset Password"} />{" "}
-      <div
-        className="w-full h-screen flex items-center justify-center text-black login"
-        id="login"
-      >
-        <div className="w-11/12 sm:w-2/5 md:w-1/5 rounded-md  form-glass py-7 px-5">
-          <form className="text-center" onSubmit={submitHandler}>
-            <h2 className="text-2xl">Reset Password</h2>
+      <div className="login ">
+        <div className="row wrapper">
+          <div className="col-10 col-lg-5">
+            <form onSubmit={submitHandler} encType="multipart/form-data">
+              <h3>Reset Password</h3>
 
-            <div className="my-5 flex-row">
-              <div className="flex my-2">
-                <label>Password *</label>
-              </div>
-              <div className="flex ">
+              <div className="form-group">
                 <input
-                  className="w-full outline-0  rounded-sm bg-transparent border-b-2 border-black"
                   type="password"
                   name="password"
+                  className="form-control"
+                  autoComplete="off"
+                  placeholder="Password"
+                  // required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-            </div>
-            <div className="my-5 flex-row">
-              <div className="flex my-2">
-                <label>Confirm Password *</label>
-              </div>
-              <div className="flex ">
+              <div className="form-group">
                 <input
-                  className="w-full outline-0  rounded-sm bg-transparent border-b-2 border-black"
                   type="password"
                   name="password"
+                  className="form-control"
+                  autoComplete="off"
+                  placeholder="Confirm Password"
+                  // required
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </div>
-            </div>
 
-            <div className="my-5">
-              <button
-                type="submit"
-                disabled={loading}
-                className="button-54 scale-75"
-              >
-                Reset
+              <button className="btn" type="submit" disabled={loading}>
+                Reset Password
               </button>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </>
   );
 }
+
+export default ResetPassword;
